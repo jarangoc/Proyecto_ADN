@@ -40,6 +40,7 @@ pipeline {
 		stage('Unit Tests') {
 			steps{
 				echo "------------>Unit Tests<------------"
+				sh 'gradle --b ./build.gradle test'
 			}    
 		}
 	
@@ -62,6 +63,7 @@ pipeline {
 		stage('Build') {
 			steps {        
 	             echo "------------>Build<------------"
+				 sh 'gradle --b ./build.gradle build -x test'
 			}    
 		}  
 	}  
@@ -72,11 +74,17 @@ pipeline {
 		}
 		 
 		success {      
-			echo 'This will run only if successful'			
+			echo 'This will run only if successful'
+			junit '**/build/test-results/test/*.xml'
 		}
 		    
 		failure {      
 			echo 'This will run only if failed'
+			mail (to: 'juan.arango@ceiba.com.co',
+				subject: "Failed Pipeline:${currentBuild.fullDisplayName}",
+				body: "Something is wrong with ${env.BUILD_URL}"
+				)
+				
 		}
 		
 		unstable {      
