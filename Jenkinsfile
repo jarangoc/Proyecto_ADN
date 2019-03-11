@@ -28,12 +28,14 @@ pipeline {
 				'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:
 				'GitHub_jarangoc', url:
 				'https://github.com/jarangoc/Proyecto_ADN']]])
+				sh 'gradle clean'
 			}
 		}
 		
 		stage('Compile') {
 			steps{
 					echo "------------>Compile<------------"
+					sh 'gradle --b ./build.gradle compileJava'
 			}
 		}
 	
@@ -55,7 +57,6 @@ pipeline {
 	        	echo '------------>Análisis de código estático<------------'
 				withSonarQubeEnv('Sonar') {
 					sh "${tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner"
-					-Dproject.settings=sonar-project.properties"
 				}
 			}
 		}
