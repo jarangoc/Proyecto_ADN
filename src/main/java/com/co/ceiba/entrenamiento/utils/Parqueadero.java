@@ -1,4 +1,4 @@
-package com.co.ceiba.entrenamiento.entities;
+package com.co.ceiba.entrenamiento.utils;
 
 public class Parqueadero {
 	
