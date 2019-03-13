@@ -2,6 +2,7 @@ package com.co.ceiba.entrenamiento.dominio;
 
 import java.util.Calendar;
 
+import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueaderoDTO;
 import com.co.ceiba.entrenamiento.dominio.exceptions.ParqueaderoException;
 import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 
@@ -21,8 +22,9 @@ public class Parqueadero {
 	public static final Double 	PRECIO_CILINDRAJE_ADICIONAL_MOTO = 2000d;
 	
 	private static final Character DIGITO_PLACA_NO_PERMITIDA = 'A';
+	private static final Integer TOPE_PARA_COBRO_POR_DIA = 9;
 	
-	private static final String MSJ_VEHICULO_NO_IDENTIFICADO = "No fue posible determinar la capacitdad para el tipo de vehículo ";
+	private static final String MSJ_VEHICULO_NO_IDENTIFICADO = "No fue posible el tipo de vehículo ";
 	private static final String MSJ_PLACA_NO_VALIDA = "La placa ingresada no es válida";
 	private static final String MSJ_DIA_NO_HABIL = "No esta autorizado a ingresar,porque no es un dia hábil";
 	
@@ -41,7 +43,7 @@ public class Parqueadero {
 	}
 	
 	public static void validarIngresoPorPlaca(String placa) throws ParqueaderoException {
-		if(placa == null || "".equals(""))
+		if(placa == null || "".equals(placa))
 			throw new ParqueaderoException(MSJ_PLACA_NO_VALIDA);
 		
 		Calendar fechaActual = Calendar.getInstance();
@@ -49,6 +51,31 @@ public class Parqueadero {
 		if(DIGITO_PLACA_NO_PERMITIDA == (Character.toUpperCase(placa.charAt(0)))
 				&& (Calendar.MONDAY == diaActual || Calendar.SUNDAY == diaActual)) 
 			throw new ParqueaderoException(MSJ_DIA_NO_HABIL);
+	}
+	
+	public static Double calcularPrecioParqueadero(TiempoParqueaderoDTO tiempoParqueadero, String tipoVehiculo,Integer cilindraje) throws ParqueaderoException {
+		double valorLiquidado = 0d;
+		if(TipoVehiculoEnum.CARRO.getDescripcion().equals(tipoVehiculo)) {
+			valorLiquidado += tiempoParqueadero.getCantidadDias()  * PRECIO_DIA_CARRO;
+			if( tiempoParqueadero.getCantidadHoras() > TOPE_PARA_COBRO_POR_DIA) {
+				valorLiquidado +=  PRECIO_DIA_CARRO;
+			}else {
+				valorLiquidado += tiempoParqueadero.getCantidadHoras() * PRECIO_HORA_CARRO;				
+			}
+		}else if (TipoVehiculoEnum.MOTO.getDescripcion().equals(tipoVehiculo)) {
+			valorLiquidado += tiempoParqueadero.getCantidadDias()  * PRECIO_DIA_MOTO;
+			if( tiempoParqueadero.getCantidadHoras() > TOPE_PARA_COBRO_POR_DIA) {
+				valorLiquidado +=  PRECIO_DIA_MOTO;
+			}else {
+				valorLiquidado += tiempoParqueadero.getCantidadHoras() * PRECIO_HORA_MOTO;				
+			}
+			if(CILINDRAJE_COBRO_ADICIONAL_MOTO < cilindraje) {
+				valorLiquidado +=  PRECIO_CILINDRAJE_ADICIONAL_MOTO;
+			}
+		}else {
+			throw new ParqueaderoException(MSJ_VEHICULO_NO_IDENTIFICADO);
+		}
+		return valorLiquidado;
 	}
 		
 }

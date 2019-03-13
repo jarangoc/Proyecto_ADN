@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.co.ceiba.entrenamiento.dominio.builders.RegistroParqueaderoBuilder;
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueaderoDTO;
+import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueaderoDTO;
 import com.co.ceiba.entrenamiento.dominio.dto.VehiculoParqueadoDTO;
 import com.co.ceiba.entrenamiento.dominio.exceptions.ParqueaderoException;
 import com.co.ceiba.entrenamiento.persistencia.entidades.RegistroParqueadero;
@@ -50,12 +51,19 @@ public class RegistroParqueaderoServiceImpl implements IRegistroParqueaderoServi
 	}
 
 	@Override
-	public void registrarSalidaVehiculo(Vehiculo vehiculo) throws ParqueaderoException {
+	public RegistroParqueaderoDTO registrarSalidaVehiculo(Vehiculo vehiculo) throws ParqueaderoException {
 		RegistroParqueadero registroParqueadero = registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(vehiculo.getPlaca(), EstadoRegistroEnum.ACTIVO.getDescripcion());
+		Date fechaSalida =new Date();
 		if(registroParqueadero == null)
 			throw new ParqueaderoException(MSJ_NO_EXISTE_VEHICULO_EN_PARQUEADERO);
-		DateUtils.calcularTiempoEntreFechas(registroParqueadero.getFechaIngreso(), new Date());
-		registroParqueaderoDao.save(new RegistroParqueadero());
+		TiempoParqueaderoDTO tiempoVehiculoDto = DateUtils.calcularTiempoEntreFechas(registroParqueadero.getFechaIngreso(), fechaSalida);
+		double precioParqueadero = Parqueadero.calcularPrecioParqueadero(tiempoVehiculoDto, vehiculo.getTipoVehiculo(), vehiculo.getCilindraje());
+		registroParqueadero.setValorCobrado(precioParqueadero);
+		registroParqueadero.setFechaSalida(fechaSalida);
+		registroParqueadero.setEstadoRegistro(EstadoRegistroEnum.INACTIVO.getDescripcion());
+		RegistroParqueadero registroActualizado = registroParqueaderoDao.save(registroParqueadero);
+		return RegistroParqueaderoBuilder.convertirADominio(registroActualizado);
+		
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public interface IRegistroParqueaderoService {
 	
 	RegistroParqueaderoDTO registrarIngresoVehiculo(Vehiculo vehiculo) throws ParqueaderoException;
 	
-	void registrarSalidaVehiculo(Vehiculo vehiculo) throws ParqueaderoException;
+	RegistroParqueaderoDTO registrarSalidaVehiculo(Vehiculo vehiculo) throws ParqueaderoException;
 	
 	List<VehiculoParqueadoDTO> consultarVehiculosEnParqueadero() throws ParqueaderoException;
 
