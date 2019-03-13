@@ -13,4 +13,7 @@ public interface IRegistroParqueaderoDao extends CrudRepository<RegistroParquead
 	@Query("SELECT rp FROM RegistroParqueadero rp WHERE LOWER(rp.estadoRegistro) = LOWER(:estadoRegistro) order by rp.vehiculo.tipoVehiculo")
     public List<RegistroParqueadero> getListadoVehiculosEnParqueadero(@Param("estadoRegistro") String estadoRegistro);
 	
+	@Query("SELECT count(rp.id) FROM RegistroParqueadero rp WHERE LOWER(rp.estadoRegistro) = LOWER(:estadoRegistro) AND LOWER(rp.vehiculo.tipoVehiculo) = LOWER(:tipoVehiculo)")
+    public Integer getCantidadVehiculosPorTipoVehiculo(@Param("estadoRegistro") String estadoRegistro, @Param("tipoVehiculo") String tipoVehiculo);
+	
 }
