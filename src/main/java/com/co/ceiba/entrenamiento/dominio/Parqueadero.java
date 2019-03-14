@@ -3,9 +3,8 @@ package com.co.ceiba.entrenamiento.dominio;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueaderoDTO;
-import com.co.ceiba.entrenamiento.dominio.exceptions.ParqueaderoException;
-import com.co.ceiba.entrenamiento.utils.DateUtils;
+import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueadero;
+import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
 import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 
 public class Parqueadero {
@@ -60,7 +59,7 @@ public class Parqueadero {
 	}
 	
 	public static Double calcularPrecioParqueadero(Date fechaIngreso, Date fechaSalida, String tipoVehiculo,Integer cilindraje) throws ParqueaderoException {
-		TiempoParqueaderoDTO tiempoParqueadero = DateUtils.calcularTiempoEntreFechas(fechaIngreso, fechaSalida);
+		TiempoParqueadero tiempoParqueadero = CalculadoraVigilanteParqueadero.calcularTiempoEntreFechas(fechaIngreso, fechaSalida);
 		double valorLiquidado = 0d;
 		if(TipoVehiculoEnum.CARRO.getDescripcion().equals(tipoVehiculo)) {
 			valorLiquidado += tiempoParqueadero.getCantidadDias()  * PRECIO_DIA_CARRO;

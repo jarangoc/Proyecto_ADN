@@ -8,15 +8,18 @@ import static org.junit.Assert.fail;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.co.ceiba.entrenamiento.dominio.Parqueadero;
-import com.co.ceiba.entrenamiento.dominio.exceptions.ParqueaderoException;
+import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
 import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 
 public class ParqueaderoTest {
 	
 	private static final String MSJ_VEHICULO_NO_IDENTIFICADO = "No fue posible identificar el tipo de vehículo Camion";
+	
+	private static final String TIPO_VEHICULO_CAMION = "Camion";
 	
 	
 
@@ -121,16 +124,29 @@ public class ParqueaderoTest {
 	@Test
 	public void tipoVehiculoNoIdentificado () throws ParqueaderoException {
 		//Arrange
-		String tipoVehiculoCarro = "Camion";
+		String tipoVehiculoCamion = TIPO_VEHICULO_CAMION;
 		int cantidadCarrosActuales = 0;
 		//Act
 		try {
-			Parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
+			Parqueadero.existeCapacidad(tipoVehiculoCamion, cantidadCarrosActuales);
 			fail();
 		} catch (ParqueaderoException e) {
 			//Assert
 			assertEquals(MSJ_VEHICULO_NO_IDENTIFICADO,e.getMessage());
 		}
+	}
+	
+	@Test
+	@Ignore
+	public void validarIngresoPlaca() throws ParqueaderoException {
+		//Arrange
+		
+		//Act
+		Parqueadero.validarIngresoPorPlaca("APX58E");
+		
+		//Assert
+		
+		
 	}
 	
 	private Date crearFecha(int year,int month, int day, int hour, int minute) {

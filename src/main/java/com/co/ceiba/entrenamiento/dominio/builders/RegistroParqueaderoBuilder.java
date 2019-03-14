@@ -1,19 +1,19 @@
 package com.co.ceiba.entrenamiento.dominio.builders;
 
-import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueaderoDTO;
-import com.co.ceiba.entrenamiento.persistencia.entidades.RegistroParqueadero;
+import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
+import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
 
 public class RegistroParqueaderoBuilder {
 	
 	private RegistroParqueaderoBuilder() {}
 	
 	
-	public static RegistroParqueaderoDTO convertirADominio(RegistroParqueadero registroParqueadero) {
+	public static RegistroParqueadero convertirADominio(RegistroParqueaderoEntity registroParqueadero) {
 
-		RegistroParqueaderoDTO registroParqueaderoDto = null;
+		RegistroParqueadero registroParqueaderoDto = null;
 
 		if (registroParqueadero != null) {
-			registroParqueaderoDto = new RegistroParqueaderoDTO(registroParqueadero.getId(),
+			registroParqueaderoDto = new RegistroParqueadero(registroParqueadero.getId(),
 					registroParqueadero.getVehiculo(), registroParqueadero.getFechaIngreso(),
 					registroParqueadero.getFechaSalida(), registroParqueadero.getEstadoRegistro(),
 					registroParqueadero.getValorCobrado());
@@ -22,12 +22,12 @@ public class RegistroParqueaderoBuilder {
 		return registroParqueaderoDto;
 	}
 	
-	public static RegistroParqueadero convertirAEntity(RegistroParqueaderoDTO registroParqueaderoDto) {
+	public static RegistroParqueaderoEntity convertirAEntity(RegistroParqueadero registroParqueaderoDto) {
 
-		RegistroParqueadero registroParqueadero = null;
+		RegistroParqueaderoEntity registroParqueadero = null;
 
 		if (registroParqueaderoDto != null) {
-			registroParqueadero = new RegistroParqueadero(registroParqueaderoDto.getId(),
+			registroParqueadero = new RegistroParqueaderoEntity(registroParqueaderoDto.getId(),
 					registroParqueaderoDto.getVehiculo(), registroParqueaderoDto.getFechaIngreso(),
 					registroParqueaderoDto.getFechaSalida(), registroParqueaderoDto.getEstadoRegistro(),
 					registroParqueaderoDto.getValorCobrado());

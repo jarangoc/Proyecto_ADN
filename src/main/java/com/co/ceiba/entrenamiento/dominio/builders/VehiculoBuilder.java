@@ -1,30 +1,30 @@
 package com.co.ceiba.entrenamiento.dominio.builders;
 
-import com.co.ceiba.entrenamiento.dominio.dto.VehiculoDTO;
-import com.co.ceiba.entrenamiento.persistencia.entidades.Vehiculo;
+import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
+import com.co.ceiba.entrenamiento.persistencia.entidad.VehiculoEntity;
 
 public class VehiculoBuilder {
 	
 	private VehiculoBuilder() {}
 	
 	
-	public static VehiculoDTO convertirADominio(Vehiculo vehiculo) {
+	public static Vehiculo convertirADominio(VehiculoEntity vehiculo) {
 		
-		VehiculoDTO vehiculoDto = null;
+		Vehiculo vehiculoDto = null;
 		
 		if(vehiculo != null) {
-			vehiculoDto = new VehiculoDTO(vehiculo.getId(), vehiculo.getPlaca(), vehiculo.getCilindraje(), vehiculo.getTipoVehiculo());
+			vehiculoDto = new Vehiculo(vehiculo.getId(), vehiculo.getPlaca(), vehiculo.getCilindraje(), vehiculo.getTipoVehiculo());
 		}
 		
 		return vehiculoDto;
 	}
 	
-	public static Vehiculo convertirAEntity(VehiculoDTO vehiculoDto) {
+	public static VehiculoEntity convertirAEntity(Vehiculo vehiculoDto) {
 		
-		Vehiculo vehiculo = null;
+		VehiculoEntity vehiculo = null;
 		
 		if(vehiculoDto != null) {
-			vehiculo = new Vehiculo(vehiculoDto.getId(),vehiculoDto.getPlaca(),vehiculoDto.getCilindraje(),vehiculoDto.getTipoVehiculo()); 
+			vehiculo = new VehiculoEntity(vehiculoDto.getId(),vehiculoDto.getPlaca(),vehiculoDto.getCilindraje(),vehiculoDto.getTipoVehiculo()); 
 		}
 		
 		return vehiculo;
