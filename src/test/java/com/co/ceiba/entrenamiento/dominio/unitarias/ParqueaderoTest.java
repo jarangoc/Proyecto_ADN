@@ -55,6 +55,24 @@ public class ParqueaderoTest {
 	}
 	
 	@Test
+	public void calcularPrecioMoto10HorasCilindraje150() throws ParqueaderoException {
+		//Arrange
+		Calendar fechaInicial = Calendar.getInstance();
+		Calendar fechaFinal = Calendar.getInstance();
+		fechaInicial.set(2019, 8, 7, 6, 0);
+		fechaFinal.set(2019, 8, 7, 16, 0);
+		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
+		Double precioEsperado = 4000d;
+		int cilindraje = 150;
+		
+		//Act
+		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial.getTime(), fechaFinal.getTime(), tipoVehiculoCarro, cilindraje);
+		
+		//Assert
+		assertEquals(precioEsperado, precioCalculado, 1);
+	}
+	
+	@Test
 	public void existeCupo19carros () throws ParqueaderoException {
 		//Arrange
 		String tipoVehiculoCarro = TipoVehiculoEnum.CARRO.getDescripcion();
