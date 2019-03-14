@@ -8,7 +8,7 @@ import com.co.ceiba.entrenamiento.persistencia.entidad.VehiculoEntity;
 
 public interface IVehiculoDao extends CrudRepository<VehiculoEntity, Long>{
 	
-	@Query("SELECT v FROM Vehiculo v WHERE LOWER(v.placa) = LOWER(:placa) ")
+	@Query("SELECT v FROM VehiculoEntity v WHERE LOWER(v.placa) = LOWER(:placa) ")
 	public VehiculoEntity getVehiculoPorPlaca(@Param("placa") String placa);
 	
 
