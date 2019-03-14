@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.Test;
 
@@ -16,20 +17,20 @@ import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 public class ParqueaderoTest {
 	
 	private static final String MSJ_VEHICULO_NO_IDENTIFICADO = "No fue posible identificar el tipo de vehículo Camion";
+	
+	
 
 	@Test
 	public void calcularPrecioCarro1Dia3Horas() throws ParqueaderoException {
 		//Arrange
-		Calendar fechaInicial = Calendar.getInstance();
-		Calendar fechaFinal = Calendar.getInstance();
-		fechaInicial.set(2019, 3, 13, 14, 0);
-		fechaFinal.set(2019, 3, 14, 17, 0);
+		Date fechaInicial = crearFecha(2019, 3, 13, 14, 0);
+		Date fechaFinal = crearFecha(2019, 3, 14, 17, 0);
 		String tipoVehiculoCarro = TipoVehiculoEnum.CARRO.getDescripcion();
 		Double precioEsperado = 11000d;
 		int cilindraje = 1000;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial.getTime(), fechaFinal.getTime(), tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -39,16 +40,14 @@ public class ParqueaderoTest {
 	@Test
 	public void calcularPrecioMoto10HorasCilindraje650() throws ParqueaderoException {
 		//Arrange
-		Calendar fechaInicial = Calendar.getInstance();
-		Calendar fechaFinal = Calendar.getInstance();
-		fechaInicial.set(2019, 8, 7, 6, 0);
-		fechaFinal.set(2019, 8, 7, 16, 0);
+		Date fechaInicial = crearFecha(2019, 8, 7, 6, 0);
+		Date fechaFinal = crearFecha(2019, 8, 7, 16, 0);
 		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
 		Double precioEsperado = 6000d;
 		int cilindraje = 650;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial.getTime(), fechaFinal.getTime(), tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -57,16 +56,14 @@ public class ParqueaderoTest {
 	@Test
 	public void calcularPrecioMoto10HorasCilindraje150() throws ParqueaderoException {
 		//Arrange
-		Calendar fechaInicial = Calendar.getInstance();
-		Calendar fechaFinal = Calendar.getInstance();
-		fechaInicial.set(2019, 8, 7, 6, 0);
-		fechaFinal.set(2019, 8, 7, 16, 0);
+		Date fechaInicial = crearFecha(2019, 8, 7, 6, 0);
+		Date fechaFinal = crearFecha(2019, 8, 7, 16, 0);
 		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
 		Double precioEsperado = 4000d;
 		int cilindraje = 150;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial.getTime(), fechaFinal.getTime(), tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -134,5 +131,12 @@ public class ParqueaderoTest {
 			//Assert
 			assertEquals(MSJ_VEHICULO_NO_IDENTIFICADO,e.getMessage());
 		}
+	}
+	
+	private Date crearFecha(int year,int month, int day, int hour, int minute) {
+		Calendar fecha = Calendar.getInstance();
+        //quitar horas a la fecha 
+		fecha.set(year, month, day, hour, minute);
+        return fecha.getTime();
 	}
 }
