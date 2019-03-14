@@ -3,7 +3,6 @@ package com.co.ceiba.entrenamiento.dominio.unitarias;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +38,22 @@ public class ParqueaderoTest {
 		assertEquals(precioEsperado, precioCalculado, 1);
 	}
 	
+	@Test
+	public void calcularPrecioCarro9Horas() throws ParqueaderoException {
+		//Arrange
+		Date fechaInicial = crearFecha(2019, 3, 13, 11, 0);
+		Date fechaFinal = crearFecha(2019, 3, 13, 20, 0);
+		String tipoVehiculoCarro = TipoVehiculoEnum.CARRO.getDescripcion();
+		Double precioEsperado = 8000d;
+		int cilindraje = 1300;
+		
+		//Act
+		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		
+		//Assert
+		assertEquals(precioEsperado, precioCalculado, 1);
+	}
+	
 
 	@Test
 	public void calcularPrecioMoto10HorasCilindraje650() throws ParqueaderoException {
@@ -48,6 +63,22 @@ public class ParqueaderoTest {
 		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
 		Double precioEsperado = 6000d;
 		int cilindraje = 650;
+		
+		//Act
+		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		
+		//Assert
+		assertEquals(precioEsperado, precioCalculado, 1);
+	}
+	
+	@Test
+	public void calcularPrecioMoto8HorasCilindraje125() throws ParqueaderoException {
+		//Arrange
+		Date fechaInicial = crearFecha(2019, 2, 14, 3, 0);
+		Date fechaFinal = crearFecha(2019, 2, 14, 11, 0);
+		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
+		Double precioEsperado = 4000d;
+		int cilindraje = 125;
 		
 		//Act
 		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
@@ -129,7 +160,21 @@ public class ParqueaderoTest {
 		//Act
 		try {
 			Parqueadero.existeCapacidad(tipoVehiculoCamion, cantidadCarrosActuales);
-			fail();
+		} catch (ParqueaderoException e) {
+			//Assert
+			assertEquals(MSJ_VEHICULO_NO_IDENTIFICADO,e.getMessage());
+		}
+	}
+	
+	@Test
+	public void tipoVehiculoNoIdentificadoCalculandoPrecio () throws ParqueaderoException {
+		//Arrange
+		Date fechaInicial = crearFecha(2017, 6, 10, 6, 12);
+		Date fechaFinal = crearFecha(2019, 6, 15, 16, 33);
+		
+		//Act
+		try {
+			Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, TIPO_VEHICULO_CAMION, 500);
 		} catch (ParqueaderoException e) {
 			//Assert
 			assertEquals(MSJ_VEHICULO_NO_IDENTIFICADO,e.getMessage());

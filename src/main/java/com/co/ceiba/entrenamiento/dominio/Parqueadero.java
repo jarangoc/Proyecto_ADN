@@ -63,14 +63,14 @@ public class Parqueadero {
 		double valorLiquidado = 0d;
 		if(TipoVehiculoEnum.CARRO.getDescripcion().equals(tipoVehiculo)) {
 			valorLiquidado += tiempoParqueadero.getCantidadDias()  * PRECIO_DIA_CARRO;
-			if( tiempoParqueadero.getCantidadHoras() > TOPE_PARA_COBRO_POR_DIA) {
+			if( tiempoParqueadero.getCantidadHoras() >= TOPE_PARA_COBRO_POR_DIA) {
 				valorLiquidado +=  PRECIO_DIA_CARRO;
 			}else {
 				valorLiquidado += tiempoParqueadero.getCantidadHoras() * PRECIO_HORA_CARRO;				
 			}
 		}else if (TipoVehiculoEnum.MOTO.getDescripcion().equals(tipoVehiculo)) {
 			valorLiquidado += tiempoParqueadero.getCantidadDias()  * PRECIO_DIA_MOTO;
-			if( tiempoParqueadero.getCantidadHoras() > TOPE_PARA_COBRO_POR_DIA) {
+			if( tiempoParqueadero.getCantidadHoras() >= TOPE_PARA_COBRO_POR_DIA) {
 				valorLiquidado +=  PRECIO_DIA_MOTO;
 			}else {
 				valorLiquidado += tiempoParqueadero.getCantidadHoras() * PRECIO_HORA_MOTO;				
@@ -79,7 +79,9 @@ public class Parqueadero {
 				valorLiquidado +=  PRECIO_CILINDRAJE_ADICIONAL_MOTO;
 			}
 		}else {
-			throw new ParqueaderoException(MSJ_VEHICULO_NO_IDENTIFICADO);
+			throw new ParqueaderoException(
+					new StringBuilder(MSJ_VEHICULO_NO_IDENTIFICADO)
+							.append(tipoVehiculo).toString());
 		}
 		return valorLiquidado;
 	}
