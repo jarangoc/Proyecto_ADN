@@ -9,13 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.co.ceiba.entrenamiento.dominio.builders.RegistroParqueaderoBuilder;
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueaderoDTO;
-import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueaderoDTO;
 import com.co.ceiba.entrenamiento.dominio.dto.VehiculoParqueadoDTO;
 import com.co.ceiba.entrenamiento.dominio.exceptions.ParqueaderoException;
 import com.co.ceiba.entrenamiento.persistencia.entidades.RegistroParqueadero;
 import com.co.ceiba.entrenamiento.persistencia.entidades.Vehiculo;
 import com.co.ceiba.entrenamiento.persistencia.repositorios.IRegistroParqueaderoDao;
-import com.co.ceiba.entrenamiento.utils.DateUtils;
+import com.co.ceiba.entrenamiento.persistencia.repositorios.IVehiculoDao;
 import com.co.ceiba.entrenamiento.utils.EstadoRegistroEnum;
 import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 
@@ -30,8 +29,13 @@ public class RegistroParqueaderoServiceImpl implements IRegistroParqueaderoServi
 	
 	private static final String MSJ_NO_EXISTE_VEHICULO_EN_PARQUEADERO = "El vehículo no se encuentra parqueado actualmente";
 	
+	private static final String MSJ_VEHICULO_EXISTENTE_EN_PARQUEADERO = "El vehículo ya se encuentra registrado";
+	
 	@Autowired
 	private IRegistroParqueaderoDao registroParqueaderoDao;
+	 
+	@Autowired
+	private IVehiculoDao vehiculoDao;
 
 	@Override
 	public RegistroParqueaderoDTO registrarIngresoVehiculo(Vehiculo vehiculo) throws ParqueaderoException {
@@ -41,12 +45,21 @@ public class RegistroParqueaderoServiceImpl implements IRegistroParqueaderoServi
 		
 		int cantidadVehiculos = registroParqueaderoDao.getCantidadVehiculosPorTipoVehiculo(EstadoRegistroEnum.ACTIVO.getDescripcion(), vehiculo.getTipoVehiculo());
 		
-		if(cantidadVehiculos>= Parqueadero.getCapacidadMaximaPorTipoVehiculo(vehiculo.getTipoVehiculo()))
+		if(!Parqueadero.existeCapacidad(vehiculo.getTipoVehiculo(), cantidadVehiculos))
 			throw new ParqueaderoException(MSJ_PARQUEADERO_SIN_CUPO);
+		
+		RegistroParqueadero registroActualVehiculo = registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(vehiculo.getPlaca(), EstadoRegistroEnum.ACTIVO.getDescripcion());
+		if(registroActualVehiculo != null)
+			throw new ParqueaderoException(MSJ_VEHICULO_EXISTENTE_EN_PARQUEADERO);
 		
 		Parqueadero.validarIngresoPorPlaca(vehiculo.getPlaca());
 		
-		RegistroParqueadero registroGuardado = registroParqueaderoDao.save(new RegistroParqueadero(null,vehiculo,new Date(),null,EstadoRegistroEnum.ACTIVO.getDescripcion(),0d));
+		Vehiculo vehiculoSistema = vehiculoDao.getVehiculoPorPlaca(vehiculo.getPlaca());
+		if (vehiculoSistema == null) {
+			vehiculoSistema = vehiculoDao.save(vehiculo);
+		}
+		
+		RegistroParqueadero registroGuardado = registroParqueaderoDao.save(new RegistroParqueadero(null,vehiculoSistema,new Date(),null,EstadoRegistroEnum.ACTIVO.getDescripcion(),0d));
 		return RegistroParqueaderoBuilder.convertirADominio(registroGuardado);
 	}
 
@@ -56,14 +69,11 @@ public class RegistroParqueaderoServiceImpl implements IRegistroParqueaderoServi
 		Date fechaSalida =new Date();
 		if(registroParqueadero == null)
 			throw new ParqueaderoException(MSJ_NO_EXISTE_VEHICULO_EN_PARQUEADERO);
-		TiempoParqueaderoDTO tiempoVehiculoDto = DateUtils.calcularTiempoEntreFechas(registroParqueadero.getFechaIngreso(), fechaSalida);
-		double precioParqueadero = Parqueadero.calcularPrecioParqueadero(tiempoVehiculoDto, vehiculo.getTipoVehiculo(), vehiculo.getCilindraje());
-		registroParqueadero.setValorCobrado(precioParqueadero);
-		registroParqueadero.setFechaSalida(fechaSalida);
-		registroParqueadero.setEstadoRegistro(EstadoRegistroEnum.INACTIVO.getDescripcion());
+		
+		double precioParqueadero = Parqueadero.calcularPrecioParqueadero(registroParqueadero.getFechaIngreso(), fechaSalida, vehiculo.getTipoVehiculo(), vehiculo.getCilindraje());
+		registroParqueadero.completarDatosRetiro(fechaSalida, precioParqueadero, EstadoRegistroEnum.INACTIVO.getDescripcion());
 		RegistroParqueadero registroActualizado = registroParqueaderoDao.save(registroParqueadero);
 		return RegistroParqueaderoBuilder.convertirADominio(registroActualizado);
-		
 	}
 
 	@Override

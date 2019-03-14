@@ -12,6 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class RegistroParqueadero {
 	
@@ -22,10 +24,12 @@ public class RegistroParqueadero {
 	@OneToOne
 	private Vehiculo vehiculo;
 	
-	@Temporal (TemporalType.TIME)
+	@Temporal (TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
 	private Date fechaIngreso;
 	
-	@Temporal (TemporalType.TIME)
+	@Temporal (TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
 	private Date fechaSalida;
 	
 	@NotEmpty
@@ -49,6 +53,13 @@ public class RegistroParqueadero {
 		this.estadoRegistro = estadoRegistro;
 		this.valorCobrado = valorCobrado;
 	}
+	
+	public void completarDatosRetiro(Date fechaSalida, Double valorCobrado, String estadoRegistro) {
+		this.fechaSalida = fechaSalida;
+		this.estadoRegistro = estadoRegistro;
+		this.valorCobrado = valorCobrado;
+	}
+	
 	
 	//GETTERS AND SETTERS
 
