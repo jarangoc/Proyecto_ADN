@@ -9,17 +9,27 @@ import java.util.Date;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.co.ceiba.entrenamiento.dominio.Parqueadero;
+import com.co.ceiba.entrenamiento.dominio.Estacionamiento;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
 import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
 public class ParqueaderoTest {
 	
 	private static final String MSJ_VEHICULO_NO_IDENTIFICADO = "No fue posible identificar el tipo de vehículo Camion";
 	
 	private static final String TIPO_VEHICULO_CAMION = "Camion";
 	
+	@Autowired
+	private Estacionamiento parqueadero;
 	
 
 	@Test
@@ -32,7 +42,7 @@ public class ParqueaderoTest {
 		int cilindraje = 1000;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -48,7 +58,7 @@ public class ParqueaderoTest {
 		int cilindraje = 1300;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -65,7 +75,7 @@ public class ParqueaderoTest {
 		int cilindraje = 650;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -81,7 +91,7 @@ public class ParqueaderoTest {
 		int cilindraje = 125;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -97,7 +107,7 @@ public class ParqueaderoTest {
 		int cilindraje = 150;
 		
 		//Act
-		Double precioCalculado = Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
 		//Assert
 		assertEquals(precioEsperado, precioCalculado, 1);
@@ -109,7 +119,7 @@ public class ParqueaderoTest {
 		String tipoVehiculoCarro = TipoVehiculoEnum.CARRO.getDescripcion();
 		int cantidadCarrosActuales = 19;
 		//Act
-		boolean existeCupo = Parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
+		boolean existeCupo = parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
 		
 		//Assert
 		assertTrue(existeCupo);
@@ -121,7 +131,7 @@ public class ParqueaderoTest {
 		String tipoVehiculoCarro = TipoVehiculoEnum.CARRO.getDescripcion();
 		int cantidadCarrosActuales = 20;
 		//Act
-		boolean existeCupo = Parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
+		boolean existeCupo =  parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
 		
 		//Assert
 		assertFalse(existeCupo);
@@ -133,7 +143,7 @@ public class ParqueaderoTest {
 		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
 		int cantidadCarrosActuales = 9;
 		//Act
-		boolean existeCupo = Parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
+		boolean existeCupo =  parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
 		
 		//Assert
 		assertTrue(existeCupo);
@@ -145,7 +155,7 @@ public class ParqueaderoTest {
 		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
 		int cantidadCarrosActuales = 10;
 		//Act
-		boolean existeCupo = Parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
+		boolean existeCupo = parqueadero.existeCapacidad(tipoVehiculoCarro, cantidadCarrosActuales);
 		
 		//Assert
 		assertFalse(existeCupo);
@@ -159,7 +169,7 @@ public class ParqueaderoTest {
 		int cantidadCarrosActuales = 0;
 		//Act
 		try {
-			Parqueadero.existeCapacidad(tipoVehiculoCamion, cantidadCarrosActuales);
+			parqueadero.existeCapacidad(tipoVehiculoCamion, cantidadCarrosActuales);
 		} catch (ParqueaderoException e) {
 			//Assert
 			assertEquals(MSJ_VEHICULO_NO_IDENTIFICADO,e.getMessage());
@@ -174,7 +184,7 @@ public class ParqueaderoTest {
 		
 		//Act
 		try {
-			Parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, TIPO_VEHICULO_CAMION, 500);
+			parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, TIPO_VEHICULO_CAMION, 500);
 		} catch (ParqueaderoException e) {
 			//Assert
 			assertEquals(MSJ_VEHICULO_NO_IDENTIFICADO,e.getMessage());
@@ -187,7 +197,7 @@ public class ParqueaderoTest {
 		//Arrange
 		
 		//Act
-		Parqueadero.validarIngresoPorPlaca("APX58E");
+		parqueadero.validarIngresoPorPlaca("APX58E");
 		
 		//Assert
 		

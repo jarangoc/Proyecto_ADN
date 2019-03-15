@@ -31,6 +31,9 @@ public class RegistroVehiculoServiceImpl implements IRegistroVehiculoService{
 	 
 	@Autowired
 	private IVehiculoDao vehiculoDao;
+	
+	@Autowired
+	private Estacionamiento estacionamiento;
 
 	@Override
 	public RegistroParqueadero registrarIngresoVehiculo(Vehiculo vehiculo) throws ParqueaderoException {
@@ -40,14 +43,14 @@ public class RegistroVehiculoServiceImpl implements IRegistroVehiculoService{
 		
 		int cantidadVehiculos = registroParqueaderoDao.getCantidadVehiculosPorTipoVehiculo(EstadoRegistroEnum.ACTIVO.getDescripcion(), vehiculo.getTipoVehiculo());
 		
-		if(!Parqueadero.existeCapacidad(vehiculo.getTipoVehiculo(), cantidadVehiculos))
+		if(!estacionamiento.existeCapacidad(vehiculo.getTipoVehiculo(), cantidadVehiculos))
 			throw new ParqueaderoException(MSJ_PARQUEADERO_SIN_CUPO);
 		
 		RegistroParqueaderoEntity registroActualVehiculo = registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(vehiculo.getPlaca(), EstadoRegistroEnum.ACTIVO.getDescripcion());
 		if(registroActualVehiculo != null)
 			throw new ParqueaderoException(MSJ_VEHICULO_EXISTENTE_EN_PARQUEADERO);
 		
-		Parqueadero.validarIngresoPorPlaca(vehiculo.getPlaca());
+		estacionamiento.validarIngresoPorPlaca(vehiculo.getPlaca());
 		
 		VehiculoEntity vehiculoSistema = vehiculoDao.getVehiculoPorPlaca(vehiculo.getPlaca());
 		if (vehiculoSistema == null) {

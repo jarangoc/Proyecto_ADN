@@ -20,6 +20,9 @@ public class SalidaVehiculoServiceImpl implements ISalidaVehiculoService{
 	
 	@Autowired
 	private IRegistroParqueaderoDao registroParqueaderoDao;
+	
+	@Autowired
+	private Estacionamiento parqueadero; 
 
 	@Override
 	public RegistroParqueadero registrarSalidaVehiculo(Vehiculo vehiculo) throws ParqueaderoException {
@@ -28,7 +31,7 @@ public class SalidaVehiculoServiceImpl implements ISalidaVehiculoService{
 		if(registroParqueadero == null)
 			throw new ParqueaderoException(MSJ_NO_EXISTE_VEHICULO_EN_PARQUEADERO);
 		
-		double precioParqueadero = Parqueadero.calcularPrecioParqueadero(registroParqueadero.getFechaIngreso(), fechaSalida, vehiculo.getTipoVehiculo(), vehiculo.getCilindraje());
+		double precioParqueadero = parqueadero.calcularPrecioParqueadero(registroParqueadero.getFechaIngreso(), fechaSalida, vehiculo.getTipoVehiculo(), vehiculo.getCilindraje());
 		registroParqueadero.completarDatosRetiro(fechaSalida, precioParqueadero, EstadoRegistroEnum.INACTIVO.getDescripcion());
 		RegistroParqueaderoEntity registroActualizado = registroParqueaderoDao.save(registroParqueadero);
 		return RegistroParqueaderoBuilder.convertirADominio(registroActualizado);
