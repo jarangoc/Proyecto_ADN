@@ -26,6 +26,8 @@ public class RegistroVehiculoServiceImpl implements IRegistroVehiculoService{
 	
 	private static final String MSJ_VEHICULO_EXISTENTE_EN_PARQUEADERO = "El vehículo ya se encuentra registrado";
 	
+	private static final String MSJ_ERROR_VEHICULO_VACIO = "No se puede realizar la operación, no se envió correctamente la información del vehículo";
+	
 	@Autowired
 	private IRegistroParqueaderoDao registroParqueaderoDao;
 	 
@@ -37,6 +39,10 @@ public class RegistroVehiculoServiceImpl implements IRegistroVehiculoService{
 
 	@Override
 	public RegistroParqueadero registrarIngresoVehiculo(Vehiculo vehiculo) throws ParqueaderoException {
+		if(vehiculo == null) {
+			throw new ParqueaderoException(MSJ_ERROR_VEHICULO_VACIO);
+		}
+
 		if(!TipoVehiculoEnum.CARRO.getDescripcion().equals(vehiculo.getTipoVehiculo()) &&
 				!TipoVehiculoEnum.MOTO.getDescripcion().equals(vehiculo.getTipoVehiculo())) 
 			throw new ParqueaderoException(MSJ_TIPO_VEHICULO_NO_PERMITIDO);
@@ -52,10 +58,17 @@ public class RegistroVehiculoServiceImpl implements IRegistroVehiculoService{
 		
 		estacionamiento.validarIngresoPorPlaca(vehiculo.getPlaca());
 		
+		estacionamiento.validarCilindrajeVehiculo(vehiculo.getCilindraje());;
+		
+		
 		VehiculoEntity vehiculoSistema = vehiculoDao.getVehiculoPorPlaca(vehiculo.getPlaca());
 		if (vehiculoSistema == null) {
 			vehiculoSistema = vehiculoDao.save(VehiculoBuilder.convertirAEntity(vehiculo));
-		}
+		}else {
+			vehiculoSistema.setTipoVehiculo(vehiculo.getTipoVehiculo());
+			vehiculoSistema.setCilindraje(vehiculo.getCilindraje());
+			vehiculoDao.save(vehiculoSistema);
+		} 
 		
 		RegistroParqueaderoEntity registroGuardado = registroParqueaderoDao.save(new RegistroParqueaderoEntity(null,vehiculoSistema,new Date(),null,EstadoRegistroEnum.ACTIVO.getDescripcion(),0d));
 		return RegistroParqueaderoBuilder.convertirADominio(registroGuardado);

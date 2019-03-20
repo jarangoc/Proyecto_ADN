@@ -27,6 +27,9 @@ public class ReglaParqueaderoCarroImpl implements IReglaParqueaderoCarro {
 			valorLiquidado += PRECIO_DIA_CARRO;
 		} else {
 			valorLiquidado += tiempoParqueadero.getCantidadHoras() * PRECIO_HORA_CARRO;
+			if(tiempoParqueadero.getCantidadMinutos()>0) {
+				valorLiquidado += PRECIO_HORA_CARRO;	
+			}
 		}
 		return valorLiquidado;
 	}
