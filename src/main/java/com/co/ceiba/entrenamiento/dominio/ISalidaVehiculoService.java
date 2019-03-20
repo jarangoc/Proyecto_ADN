@@ -1,11 +1,10 @@
 package com.co.ceiba.entrenamiento.dominio;
 
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
-import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
 
 public interface ISalidaVehiculoService {
 	
-	RegistroParqueadero registrarSalidaVehiculo(Vehiculo vehiculo) throws ParqueaderoException;
+	RegistroParqueadero registrarSalidaVehiculo(String placa) throws ParqueaderoException;
 	
 }

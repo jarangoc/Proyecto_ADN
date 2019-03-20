@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.co.ceiba.entrenamiento.dominio.builders.RegistroParqueaderoBuilder;
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
-import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
 import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
 import com.co.ceiba.entrenamiento.persistencia.repositorio.IRegistroParqueaderoDao;
@@ -25,13 +24,13 @@ public class SalidaVehiculoServiceImpl implements ISalidaVehiculoService{
 	private Estacionamiento parqueadero; 
 
 	@Override
-	public RegistroParqueadero registrarSalidaVehiculo(Vehiculo vehiculo) throws ParqueaderoException {
-		RegistroParqueaderoEntity registroParqueadero = registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(vehiculo.getPlaca(), EstadoRegistroEnum.ACTIVO.getDescripcion());
+	public RegistroParqueadero registrarSalidaVehiculo(String placa) throws ParqueaderoException {
+		RegistroParqueaderoEntity registroParqueadero = registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(placa, EstadoRegistroEnum.ACTIVO.getDescripcion());
 		Date fechaSalida =new Date();
 		if(registroParqueadero == null)
 			throw new ParqueaderoException(MSJ_NO_EXISTE_VEHICULO_EN_PARQUEADERO);
 		
-		double precioParqueadero = parqueadero.calcularPrecioParqueadero(registroParqueadero.getFechaIngreso(), fechaSalida, vehiculo.getTipoVehiculo(), vehiculo.getCilindraje());
+		double precioParqueadero = parqueadero.calcularPrecioParqueadero(registroParqueadero.getFechaIngreso(), fechaSalida, registroParqueadero.getVehiculo().getTipoVehiculo(), registroParqueadero.getVehiculo().getCilindraje());
 		registroParqueadero.completarDatosRetiro(fechaSalida, precioParqueadero, EstadoRegistroEnum.INACTIVO.getDescripcion());
 		RegistroParqueaderoEntity registroActualizado = registroParqueaderoDao.save(registroParqueadero);
 		return RegistroParqueaderoBuilder.convertirADominio(registroActualizado);

@@ -30,7 +30,10 @@ public class ReglaParqueaderoMotoImpl implements  IReglaParqueaderoMoto {
 		if( tiempoParqueadero.getCantidadHoras() >= TOPE_PARA_COBRO_POR_DIA) {
 			valorLiquidado +=  PRECIO_DIA_MOTO;
 		}else {
-			valorLiquidado += tiempoParqueadero.getCantidadHoras() * PRECIO_HORA_MOTO;				
+			valorLiquidado += tiempoParqueadero.getCantidadHoras() * PRECIO_HORA_MOTO;
+			if(tiempoParqueadero.getCantidadMinutos()>0) {
+				valorLiquidado += PRECIO_HORA_MOTO;	
+			}
 		}
 		if(CILINDRAJE_COBRO_ADICIONAL_MOTO < cilindraje) {
 			valorLiquidado +=  PRECIO_CILINDRAJE_ADICIONAL_MOTO;
