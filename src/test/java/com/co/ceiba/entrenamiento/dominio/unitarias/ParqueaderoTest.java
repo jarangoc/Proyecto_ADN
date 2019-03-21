@@ -197,20 +197,6 @@ public class ParqueaderoTest {
 	}
 	
 	@Test
-	@Ignore
-	public void validarIngresoPlaca() throws ParqueaderoException {
-		//Arrange
-		
-		//Act
-		
-		parqueadero.validarIngresoPorPlaca("APX58E");
-		
-		//Assert
-		
-		
-	}
-	
-	@Test
 	public void validarCilindrajeCuandoEsNull() {
 		//Arrange
 		
@@ -280,7 +266,5 @@ public class ParqueaderoTest {
 			assertEquals(MSJ_PLACA_NO_VALIDA,e.getMessage());
 		}
 	}
-	
-	
 
 }
