@@ -8,19 +8,11 @@ import org.springframework.stereotype.Component;
 
 import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueadero;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
+import com.co.ceiba.entrenamiento.utils.DateUtils;
 import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 
 @Component
 public class Estacionamiento {
-
-	public static final Integer CAPACIDAD_MOTO = 10;
-	public static final Integer CAPACIDAD_CARRO = 20;
-	public static final Double  PRECIO_HORA_MOTO = 500d;
-	public static final Double  PRECIO_HORA_CARRO = 1000d;
-	public static final Double  PRECIO_DIA_MOTO = 4000d;
-	public static final Double  PRECIO_DIA_CARRO = 8000d;
-	public static final Integer CILINDRAJE_COBRO_ADICIONAL_MOTO = 500;
-	public static final Double  PRECIO_CILINDRAJE_ADICIONAL_MOTO = 2000d;
 
 	private static final Character DIGITO_PLACA_NO_PERMITIDA = 'A';
 	private static final Integer CILINDRAJE_MINIMO = 1;
@@ -53,12 +45,16 @@ public class Estacionamiento {
 		if (placa == null || "".equals(placa))
 			throw new ParqueaderoException(MSJ_PLACA_NO_VALIDA);
 
-		Calendar fechaActual = Calendar.getInstance();
-		int diaActual = fechaActual.get(Calendar.DAY_OF_WEEK);
+		int diaActual = getDiaActual();
 		if (DIGITO_PLACA_NO_PERMITIDA == (Character.toUpperCase(placa.charAt(0)))
 				&& (Calendar.MONDAY == diaActual || Calendar.SUNDAY == diaActual))
 			throw new ParqueaderoException(MSJ_DIA_NO_HABIL);
 	}
+	
+	public Integer getDiaActual() {
+		return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+	}
+
 	
 	public void validarCilindrajeVehiculo(Integer cilindraje) throws ParqueaderoException {
 		if (cilindraje == null || cilindraje < CILINDRAJE_MINIMO || cilindraje > CILINDRAJE_MAXIMO)
