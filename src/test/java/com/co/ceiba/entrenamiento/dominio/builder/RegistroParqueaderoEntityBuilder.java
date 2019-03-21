@@ -40,28 +40,34 @@ public class RegistroParqueaderoEntityBuilder {
 		return new RegistroParqueaderoEntity(id,vehiculo,fechaIngreso,fechaSalida,estadoRegistro,valorCobrado);
 	}
 
-	public void conId(Long id) {
+	public RegistroParqueaderoEntityBuilder conId(Long id) {
 		this.id = id;
+		return this;
 	}
 
-	public void conVehiculo(VehiculoEntity vehiculo) {
+	public RegistroParqueaderoEntityBuilder conVehiculo(VehiculoEntity vehiculo) {
 		this.vehiculo = vehiculo;
+		return this;
 	}
 
-	public void conFechaIngreso(Date fechaIngreso) {
+	public RegistroParqueaderoEntityBuilder conFechaIngreso(Date fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
+		return this;
 	}
 
-	public void conFechaSalida(Date fechaSalida) {
+	public RegistroParqueaderoEntityBuilder conFechaSalida(Date fechaSalida) {
 		this.fechaSalida = fechaSalida;
+		return this;
 	}
 
-	public void conEstadoRegistro(String estadoRegistro) {
+	public RegistroParqueaderoEntityBuilder conEstadoRegistro(String estadoRegistro) {
 		this.estadoRegistro = estadoRegistro;
+		return this;
 	}
 
-	public void conValorCobrado(Double valorCobrado) {
+	public RegistroParqueaderoEntityBuilder conValorCobrado(Double valorCobrado) {
 		this.valorCobrado = valorCobrado;
+		return this;
 	}
 	
 }

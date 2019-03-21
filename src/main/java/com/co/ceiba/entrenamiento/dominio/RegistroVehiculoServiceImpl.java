@@ -28,6 +28,7 @@ public class RegistroVehiculoServiceImpl implements IRegistroVehiculoService{
 	
 	private static final String MSJ_ERROR_VEHICULO_VACIO = "No se puede realizar la operación, no se envió correctamente la información del vehículo";
 	
+	
 	@Autowired
 	private IRegistroParqueaderoDao registroParqueaderoDao;
 	 
