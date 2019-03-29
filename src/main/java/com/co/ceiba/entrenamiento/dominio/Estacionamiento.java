@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueadero;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
-import com.co.ceiba.entrenamiento.utils.DateUtils;
-import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
+import com.co.ceiba.entrenamiento.enums.TipoVehiculoEnum;
 
 @Component
 public class Estacionamiento {
@@ -24,10 +23,10 @@ public class Estacionamiento {
 	private static final String MSJ_CILINDRAJE_NO_VALIDO = "El cilindraje no es correcto";
 
 	@Autowired
-	private IReglaParqueaderoCarro reglasCarro;
+	private ReglaParqueaderoCarro reglasCarro;
 
 	@Autowired
-	private IReglaParqueaderoMoto reglasMoto;
+	private ReglaParqueaderoMoto reglasMoto;
 
 	public boolean existeCapacidad(String tipoVehiculo, Integer vehiculosActuales) throws ParqueaderoException {
 		if (TipoVehiculoEnum.MOTO.getDescripcion().equals(tipoVehiculo)) {

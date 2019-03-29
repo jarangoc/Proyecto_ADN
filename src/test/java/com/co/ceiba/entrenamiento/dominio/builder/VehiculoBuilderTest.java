@@ -1,7 +1,7 @@
 package com.co.ceiba.entrenamiento.dominio.builder;
 
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
-import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
+import com.co.ceiba.entrenamiento.enums.TipoVehiculoEnum;
 
 public class VehiculoBuilderTest {
 	

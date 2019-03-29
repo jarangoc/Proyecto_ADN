@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+
 import java.util.Date;
 
 import org.junit.Ignore;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.co.ceiba.entrenamiento.DateUtilsTest;
 import com.co.ceiba.entrenamiento.dominio.Estacionamiento;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
-import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
+import com.co.ceiba.entrenamiento.enums.TipoVehiculoEnum;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

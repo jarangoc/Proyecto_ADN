@@ -3,10 +3,10 @@ package com.co.ceiba.entrenamiento.dominio.builder;
 import java.util.Date;
 
 import com.co.ceiba.entrenamiento.DateUtilsTest;
+import com.co.ceiba.entrenamiento.enums.EstadoRegistroEnum;
+import com.co.ceiba.entrenamiento.enums.TipoVehiculoEnum;
 import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
 import com.co.ceiba.entrenamiento.persistencia.entidad.VehiculoEntity;
-import com.co.ceiba.entrenamiento.utils.EstadoRegistroEnum;
-import com.co.ceiba.entrenamiento.utils.TipoVehiculoEnum;
 
 public class RegistroParqueaderoEntityBuilder {
 	
