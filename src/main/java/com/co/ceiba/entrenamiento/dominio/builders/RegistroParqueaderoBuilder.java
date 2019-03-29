@@ -3,7 +3,7 @@ package com.co.ceiba.entrenamiento.dominio.builders;
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
 import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
 
-public class RegistroParqueaderoBuilder {
+public final class RegistroParqueaderoBuilder {
 	
 	private RegistroParqueaderoBuilder() {}
 	

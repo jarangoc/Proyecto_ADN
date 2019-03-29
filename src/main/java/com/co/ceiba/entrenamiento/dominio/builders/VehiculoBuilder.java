@@ -3,7 +3,7 @@ package com.co.ceiba.entrenamiento.dominio.builders;
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.persistencia.entidad.VehiculoEntity;
 
-public class VehiculoBuilder {
+public final class VehiculoBuilder {
 	
 	private VehiculoBuilder() {}
 	

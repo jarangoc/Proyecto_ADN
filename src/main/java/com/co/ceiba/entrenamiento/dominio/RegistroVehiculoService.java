@@ -58,7 +58,7 @@ public class RegistroVehiculoService {
 		
 		estacionamiento.validarIngresoPorPlaca(vehiculo.getPlaca());
 		
-		estacionamiento.validarCilindrajeVehiculo(vehiculo.getCilindraje());;
+		estacionamiento.validarCilindrajeVehiculo(vehiculo.getCilindraje());
 		
 		
 		VehiculoEntity vehiculoSistema = vehiculoRepository.getVehiculoPorPlaca(vehiculo.getPlaca());

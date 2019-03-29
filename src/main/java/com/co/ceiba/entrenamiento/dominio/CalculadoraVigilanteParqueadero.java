@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.co.ceiba.entrenamiento.dominio.dto.TiempoParqueadero;
 
-public class CalculadoraVigilanteParqueadero {
+public final class CalculadoraVigilanteParqueadero {
 	
 	private static final Long MILISEGUNDOSXDIA  = 86400000L;
 	private static final Long MILISEGUNDOSXHORA = 3600000L;
