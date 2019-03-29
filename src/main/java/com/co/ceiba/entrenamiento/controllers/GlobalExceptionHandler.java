@@ -13,7 +13,7 @@ import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
 public class GlobalExceptionHandler {
 	
 	private static final String MSJ_ERROR_INTERNO_DEL_SERVIDOR = "Ocurrió un error interno en el servidor";
-	private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
+	private static final Logger LLOGGER = LogManager.getLogger(GlobalExceptionHandler.class);
 	
 	@ExceptionHandler(ParqueaderoException.class)
 	public ResponseEntity<String> manejo(ParqueaderoException e){
@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> manejarErroresTecnicos(Exception e){
-        logger.error(e.getMessage(),e);
+		LLOGGER.error(e.getMessage(),e);
 		return new ResponseEntity<>(MSJ_ERROR_INTERNO_DEL_SERVIDOR, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
