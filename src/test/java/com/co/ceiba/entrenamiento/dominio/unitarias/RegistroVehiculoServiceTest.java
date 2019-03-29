@@ -123,12 +123,35 @@ public class RegistroVehiculoServiceTest {
 	}
 	
 	@Test
-	public void registrarVehiculo() throws ParqueaderoException {
+	public void registrarVehiculoMoto() throws ParqueaderoException {
 		//Arrange
 			Vehiculo vehiculoARegistrar = unVehiculo()
 			.conPlaca("TTPQ16")
 			.conCilindraje(200)
 			.conTipoVehiculo("Moto")
+			.build();
+			RegistroParqueaderoEntity registroAGenerar = unRegistroParqueadero().conVehiculo(VehiculoBuilder.convertirAEntity(vehiculoARegistrar)).buil();			
+			when(registroParqueaderoDao.getCantidadVehiculosPorTipoVehiculo(Mockito.anyString(),Mockito.anyString())).thenReturn(11);
+			when(estacionamiento.existeCapacidad(Mockito.anyString(), Mockito.anyInt())).thenReturn(true);
+			when(registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(null);
+			when(vehiculoDao.getVehiculoPorPlaca(Mockito.anyString())).thenReturn(VehiculoBuilder.convertirAEntity(vehiculoARegistrar));
+			when(registroParqueaderoDao.save(Mockito.any())).thenReturn(registroAGenerar);
+			
+		//Act
+			RegistroParqueadero registroGuardado = registrador.registrarIngresoVehiculo(vehiculoARegistrar);
+		//Assert
+			assertEquals(vehiculoARegistrar.getPlaca() , registroGuardado.getVehiculo().getPlaca());
+			assertEquals(vehiculoARegistrar.getTipoVehiculo() , registroGuardado.getVehiculo().getTipoVehiculo());
+			assertEquals(vehiculoARegistrar.getCilindraje() , registroGuardado.getVehiculo().getCilindraje());
+	}
+	
+	@Test
+	public void registrarVehiculoCarro() throws ParqueaderoException {
+		//Arrange
+			Vehiculo vehiculoARegistrar = unVehiculo()
+			.conPlaca("BIO")
+			.conCilindraje(1200)
+			.conTipoVehiculo("Carro")
 			.build();
 			RegistroParqueaderoEntity registroAGenerar = unRegistroParqueadero().conVehiculo(VehiculoBuilder.convertirAEntity(vehiculoARegistrar)).buil();			
 			when(registroParqueaderoDao.getCantidadVehiculosPorTipoVehiculo(Mockito.anyString(),Mockito.anyString())).thenReturn(11);

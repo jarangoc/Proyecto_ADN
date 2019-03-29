@@ -38,9 +38,6 @@ public class LibretaParqueaderoServiceTest {
 	@InjectMocks
 	private LibretaParqueaderoService libreta;
 	
-	private static final String MSJ_PARQUEADERO_SIN_VEHICULOS = "El parqueadero no tiene vehículos en el momento";
-	
-	
 	@Before
 	public void setUp() {
 		 MockitoAnnotations.initMocks(this);
@@ -62,6 +59,20 @@ public class LibretaParqueaderoServiceTest {
 		
 		//Assert
 		assertEquals(1, resultado.size());
+	}
+	
+	@Test
+	public void validarExistenciaMinimaDeVehiculoEnParqueaderoCuandoEsNull() throws ParqueaderoException {
+		
+		//Arrange
+		when(registroParqueaderoDao.getListadoVehiculosEnParqueadero(Mockito.anyString())).thenReturn(null);
+		
+		//Act
+		List<VehiculoParqueadoDTO> resultado = libreta.consultarVehiculosEnParqueadero();
+		
+		
+		//Assert
+		assertEquals(0, resultado.size());
 	}
 	
 	@Test

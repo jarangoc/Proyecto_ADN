@@ -70,6 +70,38 @@ public class ParqueaderoTest {
 		assertEquals(precioEsperado, precioCalculado, 1);
 	}
 	
+	@Test
+	public void calcularPrecioCarro15Minutos() throws ParqueaderoException {
+		//Arrange
+		Date fechaInicial = DateUtilsTest.crearFecha(2019, 3, 29, 14, 15);
+		Date fechaFinal = DateUtilsTest.crearFecha(2019, 3, 29, 14, 30);
+		String tipoVehiculoCarro = TipoVehiculoEnum.CARRO.getDescripcion();
+		Double precioEsperado = 1000d;
+		int cilindraje = 1300;
+		
+		//Act
+		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		
+		//Assert
+		assertEquals(precioEsperado, precioCalculado, 1);
+	}
+	
+	@Test
+	public void calcularPrecioMoto59Minutos() throws ParqueaderoException {
+		//Arrange
+		Date fechaInicial = DateUtilsTest.crearFecha(2019, 4, 26, 9, 0);
+		Date fechaFinal = DateUtilsTest.crearFecha(2019, 4, 26, 9, 59);
+		String tipoVehiculoCarro = TipoVehiculoEnum.MOTO.getDescripcion();
+		Double precioEsperado = 500d;
+		int cilindraje = 250;
+		
+		//Act
+		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
+		
+		//Assert
+		assertEquals(precioEsperado, precioCalculado, 1);
+	}
+	
 
 	@Test
 	public void calcularPrecioMoto10HorasCilindraje650() throws ParqueaderoException {
@@ -211,6 +243,8 @@ public class ParqueaderoTest {
 		}		
 	}
 	
+	
+	
 	@Test
 	public void validarCilindrajeCuandoEsMenorQueUno() {
 		//Arrange
@@ -222,6 +256,19 @@ public class ParqueaderoTest {
 		} catch (ParqueaderoException e) {
 			//Assert
 			assertEquals(MSJ_CILINDRAJE_NO_VALIDO,e.getMessage());
+		}		
+	}
+	
+	@Test
+	public void validarCilindrajeCuandoValorEsCorrecto() {
+		//Arrange
+		
+		//Act
+		try {
+			parqueadero.validarCilindrajeVehiculo(200);
+		} catch (ParqueaderoException e) {
+			//Assert
+			fail();
 		}		
 	}
 	
@@ -252,6 +299,8 @@ public class ParqueaderoTest {
 			assertEquals(MSJ_PLACA_NO_VALIDA,e.getMessage());
 		}
 	}
+	
+	
 	
 	@Ignore
 	@Test
