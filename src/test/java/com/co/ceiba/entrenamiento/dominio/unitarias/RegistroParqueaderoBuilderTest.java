@@ -20,7 +20,7 @@ import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity
 public class RegistroParqueaderoBuilderTest {
 
 	@Test
-	public void crearVehiculoEntity() {
+	public void crearRegistroParqueaderoEntity() {
 		//Arrange
 		Vehiculo vehiculo = BuilderVehiculo.unVehiculo().conId(1l).conTipoVehiculo(TipoVehiculoEnum.CARRO.getDescripcion()).conCilindraje(1300).conPlaca("POY123").build();
 		Date fechaIngreso = DateUtilsTest.crearFecha(2019, 04, 1, 8, 37);
@@ -42,7 +42,7 @@ public class RegistroParqueaderoBuilderTest {
 	}
 	
 	@Test
-	public void crearVehiculoEntityConDominioNull() {
+	public void crearRegistroParqueaderoEntityConDominioNull() {
 		//Arrange
 		
 		//Act
@@ -53,7 +53,7 @@ public class RegistroParqueaderoBuilderTest {
 	}
 	
 	@Test
-	public void crearVehiculo() {
+	public void crearRegistroParqueadero() {
 		//Arrange
 		Vehiculo vehiculo = BuilderVehiculo.unVehiculo().conId(2l).conTipoVehiculo(TipoVehiculoEnum.MOTO.getDescripcion()).conCilindraje(900).conPlaca("MOT456").build();
 		Date fechaIngreso = DateUtilsTest.crearFecha(2019, 06, 20, 9, 30);
@@ -75,7 +75,7 @@ public class RegistroParqueaderoBuilderTest {
 	}
 	
 	@Test
-	public void crearVehiculoConEntityNull() {
+	public void crearRegistroParqueaderoConEntityNull() {
 		//Arrange
 		
 		//Act
