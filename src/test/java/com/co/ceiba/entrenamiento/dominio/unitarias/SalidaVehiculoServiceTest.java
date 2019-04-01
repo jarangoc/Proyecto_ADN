@@ -6,22 +6,26 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
+import java.util.Date;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.co.ceiba.entrenamiento.dominio.Estacionamiento;
 import com.co.ceiba.entrenamiento.dominio.SalidaVehiculoService;
+import com.co.ceiba.entrenamiento.dominio.builders.VehiculoBuilder;
+import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
+import com.co.ceiba.entrenamiento.enums.EstadoRegistroEnum;
 import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
 import com.co.ceiba.entrenamiento.persistencia.repositorio.RegistroParqueaderoRepository;
 
@@ -30,10 +34,10 @@ import com.co.ceiba.entrenamiento.persistencia.repositorio.RegistroParqueaderoRe
 @Transactional
 public class SalidaVehiculoServiceTest {
 
-	@Spy
+	@Mock
 	private RegistroParqueaderoRepository registroParqueaderoDao;
 	
-	@Spy
+	@Mock
 	private Estacionamiento parqueadero; 
 	
 	@InjectMocks
@@ -62,20 +66,27 @@ public class SalidaVehiculoServiceTest {
 		}
 	}
 	
-	@Ignore
 	@Test
 	public void retirarVehiculo() throws ParqueaderoException {
 		//Arrange
+		Double valorCobrado = 500d;
 		Vehiculo vehiculoARetirar = unVehiculo().conPlaca("CQR15A").build();
-		RegistroParqueaderoEntity registroParqueaderoPorActualizar = unRegistroParqueadero().buil();
+		RegistroParqueaderoEntity registroParqueaderoPorActualizar = unRegistroParqueadero().conVehiculo(VehiculoBuilder.convertirAEntity(vehiculoARetirar)).buil();
 		when(registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(registroParqueaderoPorActualizar);
-		when(parqueadero.calcularPrecioParqueadero(Mockito.any(), Mockito.any(), Mockito.anyString(), Mockito.anyInt())).thenReturn(500d);
+		registroParqueaderoPorActualizar.setFechaSalida(new Date());
+		registroParqueaderoPorActualizar.setEstadoRegistro(EstadoRegistroEnum.INACTIVO.getDescripcion());
+		registroParqueaderoPorActualizar.setValorCobrado(valorCobrado);		
+		when(registroParqueaderoDao.save(registroParqueaderoPorActualizar)).thenReturn(registroParqueaderoPorActualizar);
+		when(parqueadero.calcularPrecioParqueadero(Mockito.any(), Mockito.any(), Mockito.anyString(), Mockito.anyInt())).thenReturn(valorCobrado);
 		
 		//Act
-		manejadorSalida.registrarSalidaVehiculo(vehiculoARetirar.getPlaca());
+		RegistroParqueadero registroRetirado = manejadorSalida.registrarSalidaVehiculo(vehiculoARetirar.getPlaca());
 		
 		//Assert
-		
+		assertEquals(EstadoRegistroEnum.INACTIVO.getDescripcion(),registroRetirado.getEstadoRegistro());
+		assertEquals(valorCobrado,registroRetirado.getValorCobrado());
+		assertEquals(registroParqueaderoPorActualizar.getFechaIngreso(),registroRetirado.getFechaIngreso());
+		assertEquals(vehiculoARetirar.getPlaca(),registroRetirado.getVehiculo().getPlaca());		
 	}
 	
 
