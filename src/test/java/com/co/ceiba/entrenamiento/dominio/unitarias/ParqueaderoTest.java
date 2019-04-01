@@ -4,13 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
 
-
+import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -34,10 +37,19 @@ public class ParqueaderoTest {
 	
 	private static final String MSJ_PLACA_NO_VALIDA = "La placa ingresada no es válida";
 	
+	private static final String MSJ_DIA_NO_HABIL = "No esta autorizado a ingresar,porque no es un dia hábil";
+	
 	@Autowired
 	private Estacionamiento parqueadero;
-
-
+	
+	@Spy
+	private Estacionamiento parqueaderoMock;
+	
+	@Before
+	public void setUp() {
+		 MockitoAnnotations.initMocks(this);
+	}
+	
 	@Test
 	public void calcularPrecioCarro1Dia3Horas() throws ParqueaderoException {
 		//Arrange
@@ -46,7 +58,7 @@ public class ParqueaderoTest {
 		String tipoVehiculoCarro = TipoVehiculoEnum.CARRO.getDescripcion();
 		Double precioEsperado = 11000d;
 		int cilindraje = 1000;
-		
+
 		//Act
 		Double precioCalculado = parqueadero.calcularPrecioParqueadero(fechaInicial, fechaFinal, tipoVehiculoCarro, cilindraje);
 		
@@ -300,20 +312,84 @@ public class ParqueaderoTest {
 		}
 	}
 	
-	
-	
-	@Ignore
 	@Test
-	public void validarIngresoVehiculoConPlacaAXB125DiaLunes() {
+	public void validarIngresoVehiculoConPlacaVacia() {
 		//Arrange
-		String placa = "AXB125";
+		
 		//Act
 		try {
-			parqueadero.validarIngresoPorPlaca(placa);
+			parqueadero.validarIngresoPorPlaca("");
 			fail();
 		} catch (ParqueaderoException e) {
 			//Assert
 			assertEquals(MSJ_PLACA_NO_VALIDA,e.getMessage());
+		}
+	}
+	
+	
+	
+	@Test
+	public void validarIngresoVehiculoConPlacaAXB125DiaLunes() {
+		//Arrange
+		String placa = "AXB125";
+		when(parqueaderoMock.getDiaActual()).thenReturn(Calendar.MONDAY);
+		
+		
+		//Act
+		try {
+			parqueaderoMock.validarIngresoPorPlaca(placa);
+			fail();
+		} catch (ParqueaderoException e) {
+			//Assert
+			assertEquals(MSJ_DIA_NO_HABIL,e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void validarIngresoVehiculoConPlacaAQP656DiaViernes() {
+		//Arrange
+		String placa = "AQP656";
+		when(parqueaderoMock.getDiaActual()).thenReturn(Calendar.FRIDAY);
+		
+		//Act
+		try {
+			parqueaderoMock.validarIngresoPorPlaca(placa);
+		} catch (ParqueaderoException e) {
+			//Assert
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void validarIngresoVehiculoConPlacaACQ993DiaDomingo() {
+		//Arrange
+		String placa = "ACQ993";
+		when(parqueaderoMock.getDiaActual()).thenReturn(Calendar.SUNDAY);
+		
+		//Act
+		try {
+			parqueaderoMock.validarIngresoPorPlaca(placa);
+			fail();
+		} catch (ParqueaderoException e) {
+			//Assert
+			assertEquals(MSJ_DIA_NO_HABIL,e.getMessage());
+		}
+	}
+	
+	@Test
+	public void validarIngresoVehiculoConPlacaXTH392DiaDomingo() {
+		//Arrange
+		String placa = "XTH392";
+		when(parqueaderoMock.getDiaActual()).thenReturn(Calendar.SUNDAY);
+		
+		//Act
+		try {
+			parqueaderoMock.validarIngresoPorPlaca(placa);
+		} catch (ParqueaderoException e) {
+			//Assert
+			fail();
 		}
 	}
 
