@@ -1,4 +1,4 @@
-package com.co.ceiba.entrenamiento.dominio.builders;
+package com.co.ceiba.entrenamiento.persistencia.builder;
 
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.persistencia.entidad.VehiculoEntity;

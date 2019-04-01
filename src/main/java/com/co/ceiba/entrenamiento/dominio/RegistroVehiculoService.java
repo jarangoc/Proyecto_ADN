@@ -5,13 +5,13 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.co.ceiba.entrenamiento.dominio.builders.RegistroParqueaderoBuilder;
-import com.co.ceiba.entrenamiento.dominio.builders.VehiculoBuilder;
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
 import com.co.ceiba.entrenamiento.enums.EstadoRegistroEnum;
 import com.co.ceiba.entrenamiento.enums.TipoVehiculoEnum;
+import com.co.ceiba.entrenamiento.persistencia.builder.RegistroParqueaderoBuilder;
+import com.co.ceiba.entrenamiento.persistencia.builder.VehiculoBuilder;
 import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
 import com.co.ceiba.entrenamiento.persistencia.entidad.VehiculoEntity;
 import com.co.ceiba.entrenamiento.persistencia.repositorio.RegistroParqueaderoRepository;

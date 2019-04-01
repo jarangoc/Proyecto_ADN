@@ -3,7 +3,7 @@ package com.co.ceiba.entrenamiento.dominio.builder;
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.enums.TipoVehiculoEnum;
 
-public class VehiculoBuilderTest {
+public class BuilderVehiculo {
 	
 	private Long id;
 	
@@ -13,15 +13,15 @@ public class VehiculoBuilderTest {
 	
 	private String tipoVehiculo;
 	
-	public VehiculoBuilderTest() {
+	public BuilderVehiculo() {
 		this.id = 10l;
 		this.placa = "ABO";
 		this.cilindraje = 1000;
 		this.tipoVehiculo = TipoVehiculoEnum.CARRO.getDescripcion();
 	}
 	
-	public static VehiculoBuilderTest  unVehiculo() {
-		return new VehiculoBuilderTest();
+	public static BuilderVehiculo  unVehiculo() {
+		return new BuilderVehiculo();
 
 	}
 	
@@ -29,22 +29,22 @@ public class VehiculoBuilderTest {
 		return new Vehiculo(id,placa,cilindraje,tipoVehiculo);
 	}
 
-	public VehiculoBuilderTest conId(Long id) {
+	public BuilderVehiculo conId(Long id) {
 		this.id = id;
 		return this;
 	}
 
-	public VehiculoBuilderTest conPlaca(String placa) {
+	public BuilderVehiculo conPlaca(String placa) {
 		this.placa = placa;
 		return this;
 	}
 
-	public VehiculoBuilderTest conCilindraje(Integer cilindraje) {
+	public BuilderVehiculo conCilindraje(Integer cilindraje) {
 		this.cilindraje = cilindraje;
 		return this;
 	}
 
-	public VehiculoBuilderTest conTipoVehiculo(String tipoVehiculo) {
+	public BuilderVehiculo conTipoVehiculo(String tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 		return this;
 		

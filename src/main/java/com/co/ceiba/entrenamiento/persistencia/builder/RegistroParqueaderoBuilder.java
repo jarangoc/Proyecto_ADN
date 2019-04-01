@@ -1,4 +1,4 @@
-package com.co.ceiba.entrenamiento.dominio.builders;
+package com.co.ceiba.entrenamiento.persistencia.builder;
 
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
 import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
@@ -14,7 +14,7 @@ public final class RegistroParqueaderoBuilder {
 
 		if (registroParqueadero != null) {
 			registroParqueaderoDto = new RegistroParqueadero(registroParqueadero.getId(),
-					registroParqueadero.getVehiculo(), registroParqueadero.getFechaIngreso(),
+					VehiculoBuilder.convertirADominio(registroParqueadero.getVehiculo()), registroParqueadero.getFechaIngreso(),
 					registroParqueadero.getFechaSalida(), registroParqueadero.getEstadoRegistro(),
 					registroParqueadero.getValorCobrado());
 		}
@@ -28,7 +28,7 @@ public final class RegistroParqueaderoBuilder {
 
 		if (registroParqueaderoDto != null) {
 			registroParqueadero = new RegistroParqueaderoEntity(registroParqueaderoDto.getId(),
-					registroParqueaderoDto.getVehiculo(), registroParqueaderoDto.getFechaIngreso(),
+					VehiculoBuilder.convertirAEntity(registroParqueaderoDto.getVehiculo()), registroParqueaderoDto.getFechaIngreso(),
 					registroParqueaderoDto.getFechaSalida(), registroParqueaderoDto.getEstadoRegistro(),
 					registroParqueaderoDto.getValorCobrado());
 		}

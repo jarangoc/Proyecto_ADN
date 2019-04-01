@@ -1,7 +1,7 @@
 package com.co.ceiba.entrenamiento.dominio.unitarias;
 
-import static com.co.ceiba.entrenamiento.dominio.builder.RegistroParqueaderoEntityBuilder.unRegistroParqueadero;
-import static com.co.ceiba.entrenamiento.dominio.builder.VehiculoBuilderTest.unVehiculo;
+import static com.co.ceiba.entrenamiento.dominio.builder.BuilderRegistroParqueaderoEntity.unRegistroParqueadero;
+import static com.co.ceiba.entrenamiento.dominio.builder.BuilderVehiculo.unVehiculo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
@@ -15,10 +15,10 @@ import org.mockito.Spy;
 
 import com.co.ceiba.entrenamiento.dominio.Estacionamiento;
 import com.co.ceiba.entrenamiento.dominio.RegistroVehiculoService;
-import com.co.ceiba.entrenamiento.dominio.builders.VehiculoBuilder;
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
+import com.co.ceiba.entrenamiento.persistencia.builder.VehiculoBuilder;
 import com.co.ceiba.entrenamiento.persistencia.entidad.RegistroParqueaderoEntity;
 import com.co.ceiba.entrenamiento.persistencia.repositorio.RegistroParqueaderoRepository;
 import com.co.ceiba.entrenamiento.persistencia.repositorio.VehiculoRepository;

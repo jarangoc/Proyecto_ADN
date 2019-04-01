@@ -1,6 +1,6 @@
 package com.co.ceiba.entrenamiento.dominio.unitarias;
 
-import static com.co.ceiba.entrenamiento.dominio.builder.RegistroParqueaderoEntityBuilder.unRegistroParqueadero;
+import static com.co.ceiba.entrenamiento.dominio.builder.BuilderRegistroParqueaderoEntity.unRegistroParqueadero;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;

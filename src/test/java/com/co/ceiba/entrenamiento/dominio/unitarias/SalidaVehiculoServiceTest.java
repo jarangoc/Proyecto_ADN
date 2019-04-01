@@ -1,7 +1,7 @@
 package com.co.ceiba.entrenamiento.dominio.unitarias;
 
-import static com.co.ceiba.entrenamiento.dominio.builder.RegistroParqueaderoEntityBuilder.unRegistroParqueadero;
-import static com.co.ceiba.entrenamiento.dominio.builder.VehiculoBuilderTest.unVehiculo;
+import static com.co.ceiba.entrenamiento.dominio.builder.BuilderRegistroParqueaderoEntity.unRegistroParqueadero;
+import static com.co.ceiba.entrenamiento.dominio.builder.BuilderVehiculo.unVehiculo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.co.ceiba.entrenamiento.dominio.Estacionamiento;
 import com.co.ceiba.entrenamiento.dominio.SalidaVehiculoService;
-import com.co.ceiba.entrenamiento.dominio.builders.VehiculoBuilder;
 import com.co.ceiba.entrenamiento.dominio.dto.RegistroParqueadero;
 import com.co.ceiba.entrenamiento.dominio.dto.Vehiculo;
 import com.co.ceiba.entrenamiento.dominio.exception.ParqueaderoException;
@@ -71,7 +70,7 @@ public class SalidaVehiculoServiceTest {
 		//Arrange
 		Double valorCobrado = 500d;
 		Vehiculo vehiculoARetirar = unVehiculo().conPlaca("CQR15A").build();
-		RegistroParqueaderoEntity registroParqueaderoPorActualizar = unRegistroParqueadero().conVehiculo(VehiculoBuilder.convertirAEntity(vehiculoARetirar)).buil();
+		RegistroParqueaderoEntity registroParqueaderoPorActualizar = unRegistroParqueadero().conVehiculo(com.co.ceiba.entrenamiento.persistencia.builder.VehiculoBuilder.convertirAEntity(vehiculoARetirar)).buil();
 		when(registroParqueaderoDao.getRegistroParqueaderoPorPlacaYEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(registroParqueaderoPorActualizar);
 		registroParqueaderoPorActualizar.setFechaSalida(new Date());
 		registroParqueaderoPorActualizar.setEstadoRegistro(EstadoRegistroEnum.INACTIVO.getDescripcion());

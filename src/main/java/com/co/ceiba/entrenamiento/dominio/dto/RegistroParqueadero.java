@@ -2,13 +2,11 @@ package com.co.ceiba.entrenamiento.dominio.dto;
 
 import java.util.Date;
 
-import com.co.ceiba.entrenamiento.persistencia.entidad.VehiculoEntity;
-
 public class RegistroParqueadero {
 	
 	private Long id;
 	
-	private VehiculoEntity vehiculo;
+	private Vehiculo vehiculo;
 	
 	private Date fechaIngreso;
 	
@@ -22,7 +20,7 @@ public class RegistroParqueadero {
 		
 	}
 
-	public RegistroParqueadero(Long id, VehiculoEntity vehiculo, Date fechaIngreso, Date fechaSalida,
+	public RegistroParqueadero(Long id, Vehiculo vehiculo, Date fechaIngreso, Date fechaSalida,
 			String estadoRegistro, Double valorCobrado) {
 		this.id = id;
 		this.vehiculo = vehiculo;
@@ -42,11 +40,11 @@ public class RegistroParqueadero {
 		this.id = id;
 	}
 
-	public VehiculoEntity getVehiculo() {
+	public Vehiculo getVehiculo() {
 		return vehiculo;
 	}
 
-	public void setVehiculo(VehiculoEntity vehiculo) {
+	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
 	}
 
